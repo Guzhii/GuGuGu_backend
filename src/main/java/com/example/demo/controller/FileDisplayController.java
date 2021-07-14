@@ -26,4 +26,10 @@ public class FileDisplayController {
         // Load file as Resource
         return new Response<>(fileDisplayService.getAllFiles());
     }
+
+    @GetMapping("/listFilesInfo")
+    public Response<List<String>> listFilesInfo() {
+        // Load file as Resource
+        return new Response<>(fileDisplayService.getAllFiles());
+    }
 }
