@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.exception.FileStorageException;
+import com.example.demo.exception.MyFileNotFoundException;
+import com.example.demo.model.FileInfo;
 import com.example.demo.property.FileStorageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,5 +49,26 @@ public class FileDisplayService {
         fileNames = Arrays.asList(fileNamesTmp);
 
         return fileNames;
+    }
+
+    public FileInfo getFileInfo(String name) {
+        // Creates a new File instance by converting the given pathname string
+        // into an abstract pathname
+        String pathName = this.fileStorageLocation.toString() + "/" + name;
+        Path path = Paths.get(pathName);
+
+        //Get all necessary file information
+        try {
+            float bytes = Files.size(path);
+            String date = Files.readAttributes(path, BasicFileAttributes.class).lastModifiedTime().toString();
+
+            //create fileInfo instance and return
+            FileInfo fileInfo = new FileInfo(name, bytes, date);
+            return fileInfo;
+        } catch (IOException ex) {
+            throw new MyFileNotFoundException("File not found " + name, ex);
+        }
+
+
     }
 }

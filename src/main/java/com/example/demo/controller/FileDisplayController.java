@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.common.Response;
+import com.example.demo.model.FileInfo;
 import com.example.demo.service.FileDisplayService;
 import com.example.demo.service.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,9 @@ public class FileDisplayController {
         return new Response<>(fileDisplayService.getAllFiles());
     }
 
-    @GetMapping("/listFilesInfo")
-    public Response<List<String>> listFilesInfo() {
+    @GetMapping("/listFilesInfo/{fileName}")
+    public Response<FileInfo> listFilesInfo(@PathVariable("fileName") String fileName) {
         // Load file as Resource
-        return new Response<>(fileDisplayService.getAllFiles());
+        return new Response<>(fileDisplayService.getFileInfo(fileName));
     }
 }

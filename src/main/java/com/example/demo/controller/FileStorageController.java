@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.common.Response;
+import com.example.demo.model.FileInfo;
 import com.example.demo.model.UploadFileResponse;
 import com.example.demo.service.FileStorageService;
 import org.slf4j.Logger;
@@ -69,5 +71,11 @@ public class FileStorageController {
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
+    }
+
+    @GetMapping("/newDir/{dirName}")
+    public Response<String> newDir(@PathVariable("dirName") String dirName) {
+        // Load file as Resource
+        return new Response<>(fileStorageService.newDir(dirName));
     }
 }

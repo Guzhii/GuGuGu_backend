@@ -66,4 +66,19 @@ public class FileStorageService {
             throw new MyFileNotFoundException("File not found " + fileName, ex);
         }
     }
+
+    public String newDir(String name){
+        // Creates a new File instance by converting the given pathname string
+        // into an abstract pathname
+        String pathName = this.fileStorageLocation.toString() + "/" + name;
+        Path path = Paths.get(pathName);
+
+        try {
+            Files.createDirectories(path);
+            return "Directory is created!";
+
+        } catch (IOException e) {
+            return "Failed to create directory!" + e.getMessage();
+        }
+    }
 }
